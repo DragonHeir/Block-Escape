@@ -20,9 +20,7 @@ public class Player implements ActionListener
 
 	public Player()
 	{
-		player = new PlayerObject(128, 464, 16, 16, "Block.png");
-		playertimer = new Timer(1000/24, this);
-		playertimer.start();
+
 	}
 	public void playerlogic()
 	{
@@ -30,10 +28,7 @@ public class Player implements ActionListener
 	}
 	public void jump()
 	{
-		if (isJumping)
-		{
-			
-		}
+		
 	}
 	public boolean isJumping()
 	{

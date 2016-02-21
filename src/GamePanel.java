@@ -2,20 +2,24 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener
+public class GamePanel extends JPanel implements ActionListener, KeyListener
 {
 	boolean isFalling;
 	int x = 5;
 	int blockcounter = 0;
 	Timer blocktimer;
+	Timer playertimer;
 	BlockObject bg;
 	ArrayList<BlockObject> blocks;
+	PlayerObject player;
 	public void paint(Graphics g)
 	{
 		bg.paint(g);
@@ -23,11 +27,13 @@ public class GamePanel extends JPanel implements ActionListener
 		{
 			block.paint(g);
 		}
+		player.paint(g);
 	}
 	public GamePanel()
 	{
 		bg = new BlockObject(0, 0, 256, 480, "Background.png");
 		blocks = new ArrayList<BlockObject>();
+		player = new PlayerObject(128, 464, 16, 16, "Block.png");
 		blocktimer = new Timer(1000/20, this);
 		blocktimer.start();
 	}
@@ -43,6 +49,7 @@ public class GamePanel extends JPanel implements ActionListener
 			}
 
 		}
+		player.refresh();
 		repaint();
 		blockLogic();
 	}
@@ -90,5 +97,21 @@ public class GamePanel extends JPanel implements ActionListener
 				}
 			}
 		}
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		player.keyTyped(e);
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		player.keyPressed(e);
+		System.out.println("pressed");
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		player.keyReleased(e);
+		
 	}
 }
