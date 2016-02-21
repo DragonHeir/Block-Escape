@@ -14,27 +14,27 @@ public class GamePanel extends JPanel implements ActionListener
 	int x = 5;
 	int blockcounter = 0;
 	Timer blocktimer;
-	GameObject bg;
-	ArrayList<GameObject> blocks;
+	BlockObject bg;
+	ArrayList<BlockObject> blocks;
 	public void paint(Graphics g)
 	{
 		bg.paint(g);
-		for (GameObject block:blocks)
+		for (BlockObject block:blocks)
 		{
 			block.paint(g);
 		}
 	}
 	public GamePanel()
 	{
-		bg = new GameObject(0, 0, 256, 480, "Background.png");
-		blocks = new ArrayList<GameObject>();
+		bg = new BlockObject(0, 0, 256, 480, "Background.png");
+		blocks = new ArrayList<BlockObject>();
 		blocktimer = new Timer(1000/20, this);
 		blocktimer.start();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		for (GameObject block:blocks)
+		for (BlockObject block:blocks)
 		{
 			if (block.isFalling)
 			{			
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener
 	}
 	public void addBlock()
 	{
-		blocks.add(new GameObject(block(), 0, 16, 16, "block.png"));
+		blocks.add(new BlockObject(block(), 0, 16, 16, "block.png"));
 	}
 	public void blockLogic()
 	{
@@ -84,7 +84,7 @@ public class GamePanel extends JPanel implements ActionListener
 				Rectangle r2 = blocks.get(j).getBox();
 				if (r1.intersects(r2)&& blocks.get(i).getisFalling())
 				{
-					GameObject go = blocks.get(j);
+					BlockObject go = blocks.get(j);
 					go.setY(go.getY()-32);
 					go.setIsFalling(false);
 				}

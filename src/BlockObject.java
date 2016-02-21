@@ -7,7 +7,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-public class GameObject
+public class BlockObject
 {
 	int x;
 	int y;
@@ -17,7 +17,7 @@ public class GameObject
 	Rectangle cBox;
 	boolean isFalling = true;
 
-	GameObject(int x, int y, int width, int height, String image)
+	BlockObject(int x, int y, int width, int height, String image)
 	{
 		this.x = x;
 		this.y = y;
@@ -84,9 +84,9 @@ public class GameObject
 	{
 		return isFalling;
 	}
-	public boolean checkcoords(int x, int y, ArrayList <GameObject> blocks)
+	public boolean checkcoords(int x, int y, ArrayList <BlockObject> blocks)
 	{
-	for (GameObject b: blocks)
+	for (BlockObject b: blocks)
 	{
 		if(b.getX()== x && b.getY()== y)
 		{
@@ -99,9 +99,9 @@ public class GameObject
 	{
 		return isFalling;
 	}
-	public void checkCollision(ArrayList<GameObject> list)
+	public void checkCollision(ArrayList<BlockObject> list)
 	{
-		for(GameObject b : list){
+		for(BlockObject b : list){
 			if (b.isFalling)
 			{
 				continue;

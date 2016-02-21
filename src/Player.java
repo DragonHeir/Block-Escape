@@ -7,7 +7,7 @@ import javax.swing.Timer;
 
 public class Player implements ActionListener
 {
-	GameObject player;
+	PlayerObject player;
 	Player p = new Player();
 	Timer playertimer;
 	int playercounter = 0;
@@ -16,16 +16,11 @@ public class Player implements ActionListener
 	boolean isJumping;
 	boolean isAlive = true;
 	boolean isMoving = false;
-	
-	public void paint(Graphics g)
-	{
-		{
-			player.paint(g);
-		}
-	}
+	boolean isTouchingBlock = false;
+
 	public Player()
 	{
-		player = new GameObject(128, 464, 16, 16, "Block.png");
+		player = new PlayerObject(128, 464, 16, 16, "Block.png");
 		playertimer = new Timer(1000/24, this);
 		playertimer.start();
 	}
@@ -35,7 +30,10 @@ public class Player implements ActionListener
 	}
 	public void jump()
 	{
-		
+		if (isJumping)
+		{
+			
+		}
 	}
 	public boolean isJumping()
 	{
@@ -49,21 +47,9 @@ public class Player implements ActionListener
 	{
 		return isAlive();
 	}
-	public int getX()
+	public boolean touchingBlock()
 	{
-		return x;
-	}
-	public void setX()
-	{
-		
-	}
-	public int getY()
-	{
-		return y;
-	}
-	public void setY()
-	{
-		
+		return isTouchingBlock;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
