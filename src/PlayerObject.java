@@ -8,82 +8,95 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class PlayerObject implements ActionListener
-{
+public class PlayerObject implements ActionListener {
 	int speed;
-	
-	int x;
-	int y;
-	int width;
-	int height;
+
+	public int x;
+	public int y;
+	public int width;
+	public int height;
 	boolean isFalling = true;
 	boolean keyA;
 	boolean keyD;
+	boolean keySpace;
+	public boolean isJumping = false;
+	public boolean isMovingRight = false;
+	public boolean isMovingLeft = false;
 	private BufferedImage image;
-	Rectangle cBox;
+	public Rectangle cBox;
 
-	PlayerObject(int x, int y, int width, int height, String image)
-	{
+	PlayerObject(int x, int y, int width, int height, String image) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		speed = 8;
 		isFalling = true;
-		try
-		{
+		try {
 			this.image = ImageIO.read(this.getClass().getResourceAsStream(image));
-		} 
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			System.out.println("Error Loading Image");
 		}
 		cBox = new Rectangle(x, y + 16, width, height);
 	}
-	public void refresh()
-	{
-		if (keyA)
-		{
-			x = x - speed;
+
+	public void refresh() {
+		if (keyA) {
+			if (isMovingLeft == false) {
+				x = x + speed;
+				isMovingRight = true;
+			}
 		}
-		if (keyD)
-		{
-			x = x + speed;
+		if (keyD) {
+			if (isMovingRight == false) {
+				x = x + speed;
+				isMovingRight = true;
+			}
 		}
+		if (keySpace) {
+			if (isJumping == false) {
+				y = y - 32;
+				isJumping = true;
+			}
+		}
+		cBox.setBounds(x, y, width, height);
 	}
-	public void paint(Graphics g)
-	{
+
+	public void paint(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
 	}
-	public void actionPerformed(ActionEvent e) 
-	{
-		
-	}
-	public void keyTyped(KeyEvent e)
-	{
+
+	public void actionPerformed(ActionEvent e) {
 
 	}
-	public void keyPressed(KeyEvent e) 
-	{
-		System.out.println("working");
-		if (e.getKeyCode() == KeyEvent.VK_A)
-		{
+
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_A) {
 			keyA = true;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_D)
-		{
+		if (e.getKeyCode() == KeyEvent.VK_D) {
 			keyD = true;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			keySpace = true;
+		}
+
 	}
-	public void keyReleased(KeyEvent e) 
-	{
-		if (e.getKeyCode() == KeyEvent.VK_A)
-		{
+
+	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_A) {
 			keyA = false;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_D)
-		{
+		if (e.getKeyCode() == KeyEvent.VK_D) {
 			keyD = false;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			keySpace = false;
+		}
+
 	}
 }
