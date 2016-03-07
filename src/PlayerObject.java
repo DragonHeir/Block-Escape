@@ -22,6 +22,7 @@ public class PlayerObject implements ActionListener {
 	public boolean isJumping = false;
 	public boolean isMovingRight = false;
 	public boolean isMovingLeft = false;
+	public boolean isIdle = true;
 	private BufferedImage image;
 	public Rectangle cBox;
 
@@ -42,16 +43,21 @@ public class PlayerObject implements ActionListener {
 
 	public void refresh() {
 		if (keyA) {
-			if (isMovingLeft == false) {
-				x = x + speed;
-				isMovingRight = true;
-			}
+			x = x - speed;
+			isMovingLeft = true;
+			isMovingRight = false;
+			isIdle = false;
 		}
 		if (keyD) {
-			if (isMovingRight == false) {
-				x = x + speed;
-				isMovingRight = true;
-			}
+			x = x + speed;
+			isMovingRight = true;
+			isMovingLeft = false;
+			isIdle = false;
+		}
+		if (!keyA && !keyD) {
+			isIdle = true;
+			isMovingRight = false;
+			isMovingLeft = false;
 		}
 		if (keySpace) {
 			if (isJumping == false) {
@@ -59,7 +65,13 @@ public class PlayerObject implements ActionListener {
 				isJumping = true;
 			}
 		}
-		cBox.setBounds(x, y, width, height);
+		if (isMovingLeft) {
+			cBox.setBounds(x - width, y, width, height);
+		} else if (isMovingRight) {
+			cBox.setBounds(x + width, y, width, height);
+		} else {
+			cBox.setBounds(x, y, width, height);
+		}
 	}
 
 	public void paint(Graphics g) {

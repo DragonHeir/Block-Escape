@@ -103,8 +103,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void checkPlayerCollision(ArrayList<BlockObject> list) {
 		for (BlockObject b : list) {
 			if (player.cBox.intersects(b.getBox())) {
-				player.isJumping = false;
-				System.out.println("intersect");
+				if (player.isJumping) {
+					player.y = player.y - 4;
+					player.isJumping = false;
+				}
+				if (player.isMovingLeft) {
+					player.isMovingLeft = false;
+				}
+				if (player.isMovingRight) {
+					player.isMovingRight = false;
+				}
 			}
 		}
 	}
