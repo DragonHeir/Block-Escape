@@ -6,17 +6,10 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
 			<item value="/Users/league/Desktop/Block-Escape"/>
+			<item value="/Users/league/Desktop/Game-Starter-Guide"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
-	</section>
-	<section name="WORKBENCH_SETTINGS">
-		<list key="ENABLED_TRANSFERS">
-		</list>
-	</section>
-	<section name="ChooseWorkspaceDialogSettings">
-		<item value="216" key="DIALOG_X_ORIGIN"/>
-		<item value="222" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
