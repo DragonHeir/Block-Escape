@@ -53,7 +53,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			player.isJumping = false;
 		}
 
-		checkPlayerCollision(blocks);
+		player.PlayerCollisionDetection(blocks);
+		//checkPlayerCollision(blocks);
 		player.refresh();
 		repaint();
 		blockLogic();
@@ -73,7 +74,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void blockLogic() {
 		if (blockcounter == 7) {
 			addBlock();
-			blockcounter = 0;
+			//blockcounter = 0;
 		}
 		blockcounter++;
 	}
@@ -100,19 +101,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+	
+	
 	public void checkPlayerCollision(ArrayList<BlockObject> list) {
 		for (BlockObject b : list) {
 			if (player.cBox.intersects(b.getBox())) {
-				if (player.isJumping) {
-					player.y = player.y - 4;
-					player.isJumping = false;
-				}
-				if (player.isMovingLeft) {
-					player.isMovingLeft = false;
-				}
-				if (player.isMovingRight) {
-					player.isMovingRight = false;
-				}
+//				if (player.isJumping) {
+//					player.y = player.y - 4;
+//					player.isJumping = false;
+//				}
+//				if (player.isMovingLeft) {
+//					player.isMovingLeft = false;
+//				}
+//				if (player.isMovingRight) {
+//					player.isMovingRight = false;
+//				}
+				
 			}
 		}
 	}
