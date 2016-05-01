@@ -45,17 +45,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 		}
-		if (player.isJumping) {
-			player.y = player.y + 4;
-			player.cBox.setBounds(player.x, player.y, player.width, player.height);
-		}
-		if (player.y >= 480 - 16) {
-			player.isJumping = false;
-		}
+	
 
 		player.PlayerCollisionDetection(blocks);
 		//checkPlayerCollision(blocks);
-		player.refresh();
+		player.refresh(blocks);
 		repaint();
 		blockLogic();
 	}
@@ -74,7 +68,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void blockLogic() {
 		if (blockcounter == 7) {
 			addBlock();
-			//blockcounter = 0;
+			blockcounter = 0;
 		}
 		blockcounter++;
 	}

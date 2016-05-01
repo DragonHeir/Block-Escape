@@ -55,7 +55,15 @@ public class PlayerObject implements ActionListener {
 		}
 	}
 
-	public void refresh() {
+	public boolean isColliding(ArrayList<BlockObject> blocks){
+		for (BlockObject b : blocks) {
+			if (b.getBox().intersects(cBox)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public void refresh(ArrayList<BlockObject> blocks) {
 		if (keyA) {
 			
 			if (PlayerCollision) {
@@ -78,19 +86,61 @@ public class PlayerObject implements ActionListener {
 		}
 		if (keySpace) {
 			if (isJumping == false) {
-				y = y - 32;
+//				y = y - 40;
 				isJumping = true;
 			}
 		}
 
 		if (currentState == leftState) {
-			x -= speed;
 			cBox.x = x - speed;
+			if (!isColliding(blocks)){
+				x -= speed;
+			}
+			else {
+				cBox.setBounds(x, y, width, height);
+			}
 		} else if (currentState == rightState) {
-			x += speed;
 			cBox.x = x + speed;
+			if (!isColliding(blocks)){
+				x += speed;
+			}
+			else {
+				cBox.setBounds(x, y, width, height);
+			}
 		} else {
 			cBox.x = x;
+		}
+		if (isJumping) {
+			//note to self, get jumping animation going smoothly this week!
+			if (!isColliding(blocks)){
+				for (int i = -8; i < 8; i++) {				
+					y += i;
+					cBox.y += i;
+				}
+			}
+			
+			else {
+				cBox.setBounds(x, y, width, height);
+				isJumping = false;
+			}
+		}
+		else if (!isColliding(blocks)){
+			isJumping = true;
+		}
+		if (y >= 480 - 16) {
+			isJumping = false;
+			y = 480 - 16;
+		}
+		if (cBox.x <= 0) {
+			currentState = idleState;
+			x = 0;
+			System.out.println("test");
+		}
+		if (cBox.x >= 240){
+			currentState = idleState;
+			x = 240;
+			
+			System.out.println("test2");
 		}
 	}
 
