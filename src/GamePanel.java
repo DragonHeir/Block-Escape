@@ -45,7 +45,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 		}
-	
 
 		player.PlayerCollisionDetection(blocks);
 		//checkPlayerCollision(blocks);

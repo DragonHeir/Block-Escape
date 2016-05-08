@@ -53,17 +53,16 @@ public class PlayerObject implements ActionListener {
 				PlayerCollision = false;
 			}
 		}
-	}
-
-	public boolean isColliding(ArrayList<BlockObject> blocks){
-		for (BlockObject b : blocks) {
-			if (b.getBox().intersects(cBox)) {
-				return true;
-			}
 		}
-		return false;
-	}
-	public void refresh(ArrayList<BlockObject> blocks) {
+		public boolean isColliding(ArrayList<BlockObject> blocks){
+			 		for (BlockObject b : blocks) {
+			 		if (b.getBox().intersects(cBox)) {
+			 				return true;
+			 			}
+			 		}
+			 		return false;
+			 	}
+			 	public void refresh(ArrayList<BlockObject> blocks) {
 		if (keyA) {
 			
 			if (PlayerCollision) {
@@ -86,7 +85,7 @@ public class PlayerObject implements ActionListener {
 		}
 		if (keySpace) {
 			if (isJumping == false) {
-//				y = y - 40;
+				y = y - 40;
 				isJumping = true;
 			}
 		}
@@ -94,57 +93,20 @@ public class PlayerObject implements ActionListener {
 		if (currentState == leftState) {
 			cBox.x = x - speed;
 			if (!isColliding(blocks)){
-				x -= speed;
-			}
-			else {
-				cBox.setBounds(x, y, width, height);
-			}
+				 			x -= speed;
+				 		}
+				 			else {
+				 				cBox.setBounds(x, y, width, height);
+				 			}
 		} else if (currentState == rightState) {
+			x += speed;
 			cBox.x = x + speed;
-			if (!isColliding(blocks)){
-				x += speed;
-			}
-			else {
-				cBox.setBounds(x, y, width, height);
-			}
 		} else {
 			cBox.x = x;
 		}
-		if (isJumping) {
-			//note to self, get jumping animation going smoothly this week!
-			if (!isColliding(blocks)){
-				for (int i = -8; i < 8; i++) {				
-					y += i;
-					cBox.y += i;
-				}
-			}
-			
-			else {
-				cBox.setBounds(x, y, width, height);
-				isJumping = false;
-			}
-		}
-		else if (!isColliding(blocks)){
-			isJumping = true;
-		}
-		if (y >= 480 - 16) {
-			isJumping = false;
-			y = 480 - 16;
-		}
-		if (cBox.x <= 0) {
-			currentState = idleState;
-			x = 0;
-			System.out.println("test");
-		}
-		if (cBox.x >= 240){
-			currentState = idleState;
-			x = 240;
-			
-			System.out.println("test2");
-		}
 	}
 
-	
+	//CHECK GITHUB AND HISTORY OF ASDF AND COPY AND PASTE EVERYTHING INTO THIS CODE EXCEPT JUMPING CRAP, FIGURE OUT HOW TO GET JUMPING TO WORK
 
 	public void paint(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
