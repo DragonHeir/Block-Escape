@@ -29,6 +29,9 @@ public class PlayerObject implements ActionListener {
 	private BufferedImage image;
 	public Rectangle cBox;
 	boolean PlayerCollision = false;
+	int currentVelocity = 0;
+	int maximumVelocity = 9;
+	int jumpForce = -9;
 
 	PlayerObject(int x, int y, int width, int height, String image) {
 		this.x = x;
@@ -53,18 +56,20 @@ public class PlayerObject implements ActionListener {
 				PlayerCollision = false;
 			}
 		}
+	}
+
+	public boolean isColliding(ArrayList<BlockObject> blocks) {
+		for (BlockObject b : blocks) {
+			if (b.getBox().intersects(cBox)) {
+				return true;
+			}
 		}
-		public boolean isColliding(ArrayList<BlockObject> blocks){
-			 		for (BlockObject b : blocks) {
-			 		if (b.getBox().intersects(cBox)) {
-			 				return true;
-			 			}
-			 		}
-			 		return false;
-			 	}
-			 	public void refresh(ArrayList<BlockObject> blocks) {
+		return false;
+	}
+
+	public void refresh(ArrayList<BlockObject> blocks) {
 		if (keyA) {
-			
+
 			if (PlayerCollision) {
 				currentState = idleState;
 			} else {
@@ -72,7 +77,7 @@ public class PlayerObject implements ActionListener {
 			}
 		}
 		if (keyD) {
-			
+
 			if (PlayerCollision) {
 				currentState = idleState;
 			} else {
@@ -85,28 +90,63 @@ public class PlayerObject implements ActionListener {
 		}
 		if (keySpace) {
 			if (isJumping == false) {
-				y = y - 40;
+				new Thread(new SoundPlayer("Jump2.wav")).start();
+				currentVelocity = jumpForce;
 				isJumping = true;
 			}
 		}
+		if (isJumping) {
+			if (!isColliding(blocks)) {
+				y += currentVelocity;
+				if (currentVelocity < 0) {
+					cBox.y = y + currentVelocity;
+					if (!isColliding(blocks)) {
+						y += currentVelocity;
+					} else {
+						cBox.y = y;
+						currentVelocity = 0;
+					}
+					y += currentVelocity;
+					if (currentVelocity > 0) {
+						cBox.y = y - currentVelocity;
+						if (!isColliding(blocks)) {
+							y -= currentVelocity;
+						} else {
+							cBox.y = y;
+							currentVelocity = 0;
+						}
+				}
+			}
+			if (y == 480 - 16) {
+				isJumping = false;
+			}
+		}
+
+	
+
+	
 
 		if (currentState == leftState) {
 			cBox.x = x - speed;
-			if (!isColliding(blocks)){
-				 			x -= speed;
-				 		}
-				 			else {
-				 				cBox.setBounds(x, y, width, height);
-				 			}
+			if (!isColliding(blocks)) {
+				x -= speed;
+			} else {
+				cBox.setBounds(x, y, width, height);
+			}
 		} else if (currentState == rightState) {
-			x += speed;
 			cBox.x = x + speed;
-		} else {
-			cBox.x = x;
+			if (!isColliding(blocks)) {
+				x += speed;
+			} else {
+				cBox.setBounds(x, y, width, height);
+			}
+		}
+		currentVelocity++;
+		if (currentVelocity >= maximumVelocity) {
+			currentVelocity = maximumVelocity;
 		}
 	}
-
-	//CHECK GITHUB AND HISTORY OF ASDF AND COPY AND PASTE EVERYTHING INTO THIS CODE EXCEPT JUMPING CRAP, FIGURE OUT HOW TO GET JUMPING TO WORK
+	}
 
 	public void paint(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
