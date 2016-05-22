@@ -30,8 +30,8 @@ public class PlayerObject implements ActionListener {
 	public Rectangle cBox;
 	boolean PlayerCollision = false;
 	int currentVelocity = 0;
-	int maximumVelocity = 9;
-	int jumpForce = -9;
+	int maximumVelocity = 4;
+	int jumpForce = -4;
 
 	PlayerObject(int x, int y, int width, int height, String image) {
 		this.x = x;
@@ -68,35 +68,44 @@ public class PlayerObject implements ActionListener {
 	}
 
 	public void refresh(ArrayList<BlockObject> blocks) {
-		if (keyA) {
+	
+		//COMPLICATED CRAP, DONT TOUCH
+//		if (keyA) {
+//			System.out.println("left");
+//
+//			if (!PlayerCollision) {
+//				currentState = leftState;
+//			} else {
+//				currentState = idleState;
+//			}
+//		}
+//		if (keyD) {
 
-			if (PlayerCollision) {
-				currentState = idleState;
-			} else {
-				currentState = leftState;
-			}
-		}
+//			if (PlayerCollision) {
+//				currentState = idleState;
+//			} else {
+//				currentState = rightState;
+//			}
+//		}
+		
 		if (keyD) {
-
-			if (PlayerCollision) {
-				currentState = idleState;
-			} else {
-				currentState = rightState;
-			}
-
+			currentState = rightState;
 		}
-		if (!keyA && !keyD) {
+		if (keyA) {
+			currentState = leftState;
+		}
+		if (!keyA && !keyD){
 			currentState = idleState;
 		}
+		
 		if (keySpace) {
 			if (isJumping == false) {
-				new Thread(new SoundPlayer("Jump2.wav")).start();
+				//new Thread(new SoundPlayer("Jump2.wav")).start();
 				currentVelocity = jumpForce;
 				isJumping = true;
 			}
 		}
 		if (isJumping) {
-			if (!isColliding(blocks)) {
 				y += currentVelocity;
 				if (currentVelocity < 0) {
 					cBox.y = y + currentVelocity;
@@ -112,13 +121,18 @@ public class PlayerObject implements ActionListener {
 						if (!isColliding(blocks)) {
 							y -= currentVelocity;
 						} else {
-							cBox.y = y;
+							cBox.y = y++;
 							currentVelocity = 0;
 						}
 				}
 			}
-			if (y == 480 - 16) {
+			if (y >= 480 - 16) {
 				isJumping = false;
+			}
+			if (x <= 0){
+				x = 0;
+				cBox.x = x;
+				
 			}
 		}
 
@@ -127,6 +141,7 @@ public class PlayerObject implements ActionListener {
 	
 
 		if (currentState == leftState) {
+			System.out.println(currentState);
 			cBox.x = x - speed;
 			if (!isColliding(blocks)) {
 				x -= speed;
@@ -134,19 +149,25 @@ public class PlayerObject implements ActionListener {
 				cBox.setBounds(x, y, width, height);
 			}
 		} else if (currentState == rightState) {
+			System.out.println(currentState);
 			cBox.x = x + speed;
 			if (!isColliding(blocks)) {
 				x += speed;
-			} else {
-				cBox.setBounds(x, y, width, height);
 			}
+		}
+		else {
+			currentState = idleState;
+			cBox.setBounds(x, y, width, height);
 		}
 		currentVelocity++;
 		if (currentVelocity >= maximumVelocity) {
 			currentVelocity = maximumVelocity;
+			
 		}
-	}
-	}
+		}
+
+		
+	
 
 	public void paint(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);

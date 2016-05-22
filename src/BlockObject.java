@@ -42,7 +42,7 @@ public class BlockObject
 	{
 		if (isFalling)
 		{
-		y = y + 16;
+			y += 16;
 		if(y >= 480 - 16)
 		{
 			y = 480 - 16;
