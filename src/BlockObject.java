@@ -43,17 +43,16 @@ public class BlockObject
 		if (isFalling)
 		{
 			y += 16;
+		cBox.setBounds(x, y + 16, width, height);
+		}
+		else
+		{			
+			cBox.setBounds(x, y, width, height);
+		}
 		if(y >= 480 - 16)
 		{
 			y = 480 - 16;
 			isFalling = false;
-		}
-		else{
-		cBox.setBounds(x, y + 16, width, height);
-		}}
-		else
-		{			
-			cBox.setBounds(x, y, width, height);
 		}
 	}
 	public Rectangle getBox()
