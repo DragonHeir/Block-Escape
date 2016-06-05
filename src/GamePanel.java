@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		//checkPlayerCollision(blocks);
 		player.refresh(blocks);
 		repaint();
-		blockLogic();
+	//	blockLogic();
 	}
 
 	int block() {
@@ -64,13 +64,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		blocks.add(new BlockObject(block(), 0, 16, 16, "block.png"));
 	}
 
-	public void blockLogic() {
-		if (blockcounter == 7) {
-			addBlock();
-		//blockcounter = 0;
-		}
-		blockcounter++;
-	}
+//	public void blockLogic() {
+//		//if (blockcounter == 7) {
+//			addBlock();
+//		//blockcounter = 0;
+//		}
+//		blockcounter++;
+//	}
 
 	boolean isFalling() {
 		return isFalling;

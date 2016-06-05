@@ -98,12 +98,12 @@ public class PlayerObject implements ActionListener {
 			currentState = idleState;
 		}
 		if (x <= 0){
-			x = 0;
 			cBox.x = x;				
+			x = 0;
 		}
 		if (x >= 240){
-			x = 240;
 			cBox.x = x;
+			x = 240;
 		}
 		if (y >= 480 - 16) {
 			isJumping = false;
@@ -117,26 +117,32 @@ public class PlayerObject implements ActionListener {
 			}
 			}
 		
-		if (isJumping) {
-				y += currentVelocity;
-				if (currentVelocity < 0) {
-					if (!isColliding(blocks)) {
-						y += currentVelocity;
-					} else {
-						cBox.y = y;
-						currentVelocity = 0;
-					}
-					y += currentVelocity;
-					if (currentVelocity > 0) {
+				if (isJumping) {
 						if (!isColliding(blocks)) {
 							y += currentVelocity;
-						} else {
-							cBox.y = y++;
-							currentVelocity = 0;
+							if (currentVelocity < 0) {
+								cBox.y = y + currentVelocity;
+								if (!isColliding(blocks)) {
+									y += currentVelocity;
+								} else {
+									cBox.y = y;
+									currentVelocity = 0;
+								}
+								y += currentVelocity;
+								if (currentVelocity > 0) {
+									cBox.y = y - currentVelocity;
+									if (!isColliding(blocks)) {
+										y -= currentVelocity;
+									} else {
+									cBox.y = y;
+										currentVelocity = 0;
+									}
+							}
 						}
-				}
-			}
-		}
+						if (y == 480 - 16) {
+							isJumping = false;
+						}
+					}
 
 	
 
@@ -144,15 +150,16 @@ public class PlayerObject implements ActionListener {
 
 		if (currentState == leftState) {
 			System.out.println(currentState);
-			cBox.x = x - speed;
+			cBox.x = x - speed*2;
 			if (!isColliding(blocks)) {
 				x -= speed;
 			} else {
 				cBox.setBounds(x, y, width, height);
 			}
-		} else if (currentState == rightState) {
+		}
+			else if (currentState == rightState) {
 			System.out.println(currentState);
-			cBox.x = x + speed;
+			cBox.x = x + speed*2;
 			if (!isColliding(blocks)) {
 				x += speed;
 			}
@@ -162,11 +169,13 @@ public class PlayerObject implements ActionListener {
 			cBox.setBounds(x, y, width, height);
 		}
 		currentVelocity++;
+				}
+		}
 		if (currentVelocity >= maximumVelocity) {
 			currentVelocity = maximumVelocity;
 			
 		}
-		}
+		
 		}
 		
 
